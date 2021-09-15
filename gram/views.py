@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import login,authenticate
 from .forms import SignUpForm
-from .models import Image,Profile,User
 from django.shortcuts import render,redirect
 
 
