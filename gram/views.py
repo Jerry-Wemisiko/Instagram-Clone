@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,authenticate
-from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
 from .models import Image,Profile,User
 from django.shortcuts import render,redirect
+
+
 # Create your views here.
 def homepage(request):
 
@@ -12,7 +13,7 @@ def homepage(request):
 
 def SignUp(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
