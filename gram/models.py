@@ -11,14 +11,7 @@ class Profile(models.Model):
   def __str__(self) -> str:
         return self.user.username
   
-  @classmethod
-  def search_user(cls,username):
-        return User.objects.filter(username__icontains = username)
 
-  def save_profile(self):
-      self.save()
-
-  
 class Image(models.Model):
     image= CloudinaryField('image')
     image_name = models.CharField(max_length=30)
@@ -38,4 +31,9 @@ class Image(models.Model):
 
     def update_caption(self):
         return self.update()
+
+# class Post(models.Model):
+#     author = models.ForeignKey("auth.User" ,on_delete=models.CASCADE)
+#     image = models.CloudinaryField(blank=True,null=True)
+
   
