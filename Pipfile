@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 django-registration = "*"
+psycopg2-binary = "*"
+cloudinary = "*"
 
 [dev-packages]
 

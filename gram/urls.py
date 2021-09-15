@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    url(r'$',views.homepage, name=views.homepage)
+    url(r'$',views.homepage, name='homepage')
 ]
 
 if settings.DEBUG:
