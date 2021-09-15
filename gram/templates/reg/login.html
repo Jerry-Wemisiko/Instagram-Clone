@@ -1,4 +1,6 @@
-{%extends "reg/base.html"%}
+{% extends 'reg/base.html' %}
+
+
 {% block content %}
 <div class="container">
   <div class="row">
@@ -17,8 +19,6 @@
 
           <form  action="/accounts/login/" method="post">
             {% csrf_token %}
-            
-
             <div class="form-group">
               <input type="submit" class="btn btn-primary btn-sm" value="Login">
             </div>

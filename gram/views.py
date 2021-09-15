@@ -1,3 +1,4 @@
+from gram.models import Image, Profile
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.utils.encoding import force_text
@@ -7,6 +8,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 from .forms import SignUpForm
 from django.shortcuts import render,redirect
@@ -14,10 +16,17 @@ from .tokens import account_activation_token
 
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def homepage(request):
-
+    
     title = 'Clone'
-    return render(request, 'index.html',{'title':title})
+    profile = Profile.objects.all()
+    posts = Image.objects.all()
+    
+    return render(request, 'index.html',{'title':title,'profile':profile,'posts':posts})
+
+
+
 
 def activation_sent_view(request):
     return render(request, 'reg/activation_sent.html')

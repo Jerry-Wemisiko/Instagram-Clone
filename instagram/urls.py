@@ -20,11 +20,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-      url(r'',include ('gram.urls')),
-    url(r'^signup/',signup_view,name ='signUp'),
-    url(r'^sent/', activation_sent_view, name="activation_sent"),
-    url(r'^activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
-  
-   
+    url(r'',include ('gram.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
     
 ]
