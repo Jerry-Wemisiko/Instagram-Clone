@@ -16,6 +16,10 @@ class Profile(models.Model):
     def __str__(self) -> str:
         return self.user.username
 
+def update_profile_signal(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
     
 
 
