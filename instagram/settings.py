@@ -145,3 +145,5 @@ cloudinary.config(
   api_key = '235771331651163',  
   api_secret = 'XGUGtUfIqexXDOQyA55thI9Q3tU'  
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
