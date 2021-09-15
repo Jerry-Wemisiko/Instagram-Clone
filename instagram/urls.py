@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include ('gram.urls')),
     url(r'signup/',SignUp,name ='SignUp'),
-    url(r'^logout/$', views.logout, {"next_page": '/'}), 
 ]
