@@ -7,6 +7,7 @@ name = "pypi"
 django-registration = "*"
 psycopg2-binary = "*"
 cloudinary = "*"
+django = "==2.1.4"
 
 [dev-packages]
 

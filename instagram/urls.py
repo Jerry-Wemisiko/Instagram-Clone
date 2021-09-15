@@ -14,14 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from gram.views import SignUp
+from gram.views import homepage, signup_view, activation_sent_view, activate
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth import views
-import gram
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'',include ('gram.urls')),
-    url(r'^signup/',SignUp,name ='SignUp'),
+      url(r'',include ('gram.urls')),
+    url(r'^signup/',signup_view,name ='signUp'),
+    url(r'^sent/', activation_sent_view, name="activation_sent"),
+    url(r'^activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+  
+   
+    
 ]
