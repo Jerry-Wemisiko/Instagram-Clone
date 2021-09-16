@@ -15,13 +15,12 @@ Including another URLconf
 """
 
 
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.urls import path
 from django.contrib import admin
 from django.contrib.auth import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'',include ('gram.urls')),
-    url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'^logout/$', views.LogoutView.as_view(), {"next_page": '/'}),
+    path('admin', admin.site.urls),
+    path('',include ('gram.urls')),
 ]
