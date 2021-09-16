@@ -41,6 +41,9 @@ def profile(request):
         user_form = userForm(instance=request.user)
     return render(request, 'profile.html', {"user_form": user_form, "profile_form": profile_form})
 
+
+
+
 def activation_sent_view(request):
     return render(request, 'reg/activation_sent.html')
 
@@ -61,6 +64,34 @@ def activate(request, uidb64, token):
         return redirect('home')
     else:
         return render(request, 'reg/activation_invalid.html')
+
+
+def searchprofile(request):
+    if 'insta' in request.GET and request.GET['insta']:
+        name = request.GET.get("insta")
+        searchResults = Profile.search_profile(name)
+        message = f'name'
+        params = {
+            'results': searchResults,
+            'message': message
+        }
+        return render(request, 'search.html', params)
+    else:
+        message = "You haven't searched for any image category"
+    return render(request, 'search.html', {'message': message})
+
+def post_image(request):
+    profile = Profile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = uploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            ig_post = form.save(commit=False)
+            ig_post.profile = request.user.profile
+            ig_post.save()
+            return redirect("index")
+    else:
+        form = uploadImageForm()
+    return render(request, 'post_image.html', {"form": form})
 
 def signup_view(request):
     if request.method == 'POST':
