@@ -36,7 +36,8 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
-    'gram',
+    'gram.apps.GramConfig',
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,16 +81,20 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+PRODUCTION = environ.get('PRODUCTION')
+DATABASES={}
+if PRODUCTION =='True':
+    DATABASES['default'] = db_url.config()
+else:    
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['DB_NAME'],
+            'USER': os.environ['DB_USER'],
+            'PASSWORD': os.environ['DB_PASSWORD']
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD']
-
+        }
     }
-}
 
 
 # Password validation
@@ -130,7 +135,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [
 
+    os.path.join(BASE_DIR, 'static'), 
+
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
