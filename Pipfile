@@ -8,6 +8,7 @@ django-registration = "*"
 psycopg2-binary = "*"
 cloudinary = "*"
 django = "*"
+gunicorn = "*"
 
 [dev-packages]
 
