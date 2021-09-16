@@ -1,6 +1,6 @@
 from gram.models import Image, Profile,Comment
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login,authenticate
 from django.utils.encoding import force_text
 from django.contrib.auth.models import User
 from django.utils.http import urlsafe_base64_decode
@@ -25,6 +25,21 @@ def homepage(request):
     
     return render(request, 'index.html',{'title':title,'profile':profile,'posts':posts})
 
+def register(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+        return redirect('login')
+    else:
+        form = SignUpForm()
+    return render(request,'reg/regform.html')
+
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
@@ -44,26 +59,26 @@ def profile(request):
 
 
 
-def activation_sent_view(request):
-    return render(request, 'reg/activation_sent.html')
+# def activation_sent_view(request):
+#     return render(request, 'reg/activation_sent.html')
 
-def activate(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
-    # checking if the user exists, if the token is valid.
-    if user is not None and account_activation_token.check_token(user, token):
-        # if valid set active true 
-        user.is_active = True
-        # set signup_confirmation true
-        user.profile.signup_confirmation = True
-        user.save()
-        login(request, user)
-        return redirect('home')
-    else:
-        return render(request, 'reg/activation_invalid.html')
+# def activate(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+#     # checking if the user exists, if the token is valid.
+#     if user is not None and account_activation_token.check_token(user, token):
+#         # if valid set active true 
+#         user.is_active = True
+#         # set signup_confirmation true
+#         user.profile.signup_confirmation = True
+#         user.save()
+#         login(request, user)
+#         return redirect('home')
+#     else:
+#         return render(request, 'reg/activation_invalid.html')
 
 
 def searchprofile(request):
@@ -93,30 +108,49 @@ def post_image(request):
         form = uploadImageForm()
     return render(request, 'post_image.html', {"form": form})
 
-def signup_view(request):
+@login_required(login_url='accounts/login/')
+def comment(request, image_id):
+    current_user = request.user
+    images = Image.objects.get(id=image_id)
+    user_profile = Profile.objects.get(username=current_user)
+    comments = Comment.objects.all()
+
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = commentForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()
-            user.profile.full_name = form.cleaned_data.get('full_name')
-            user.profile.email = form.cleaned_data.get('email')
-
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            subject = 'Please Activate Your Account'
-
-            message = render_to_string('reg/activation_request.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                # method will generate a hash value with user related data
-                'token': account_activation_token.make_token(user),
-            })
-            user.email_user(subject, message)
-            return redirect('activation_sent')
+            comment = form.save(commit=False)
+            comment.image_post = images
+            comment.comment_by = user_profile
+            comment.save()
+        return redirect('index')
     else:
-        form = SignUpForm()
-    return render(request, 'reg/regform.html',{'form':form})
+        form = commentForm()
+    return render(request, 'comment.html', {"form": form, "images": images, 'comments': comments})
+
+# def signup_view(request):
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.refresh_from_db()
+#             user.profile.full_name = form.cleaned_data.get('full_name')
+#             user.profile.email = form.cleaned_data.get('email')
+
+#             user.is_active = False
+#             user.save()
+#             current_site = get_current_site(request)
+#             subject = 'Please Activate Your Account'
+
+#             message = render_to_string('reg/activation_request.html', {
+#                 'user': user,
+#                 'domain': current_site.domain,
+#                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                 # method will generate a hash value with user related data
+#                 'token': account_activation_token.make_token(user),
+#             })
+#             user.email_user(subject, message)
+#             return redirect('activation_sent')
+#     else:
+#         form = SignUpForm()
+#     return render(request, 'reg/regform.html',{'form':form})
 

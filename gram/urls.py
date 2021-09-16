@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'$',views.homepage, name='homepage'),
-    url(r'^signup/',views.signup_view,name ='signup'),
+    # url(r'^signup/',views.signup_view,name ='signup'),
     url(r'^sent/', views.activation_sent_view, name="activation_sent"),
     url(r'^activate/<slug:uidb64>/<slug:token>/',views.activate, name='activate'),
     url(r'profile/', views.profile, name='profile'),
