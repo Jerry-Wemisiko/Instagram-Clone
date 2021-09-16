@@ -1,7 +1,6 @@
 {% extends 'reg/base.html' %}
-
-
 {% block content %}
+{% load static %}
 <div class="container">
   <div class="row">
     <!-- Empty div -->
@@ -19,6 +18,7 @@
 
           <form  action="/accounts/login/" method="post">
             {% csrf_token %}
+            <p><a href="/signup"><small>Sign up</small></a></p>
             <div class="form-group">
               <input type="submit" class="btn btn-primary btn-sm" value="Login">
             </div>

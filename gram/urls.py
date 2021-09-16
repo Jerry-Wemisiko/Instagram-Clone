@@ -8,12 +8,10 @@ urlpatterns = [
     url(r'$',views.homepage, name='homepage'),
     url(r'signup/',views.signup,name = 'signup'),
     url('login/', auth_views.LoginView.as_view(), name='signin'),
-    url(r'profile/', views.userprofile, name='profile'),
-    url(r'post/', views.new_image, name='new_image'),
+    url(r'profile/', views.userprofile, name='userprofile'),
+    url(r'add/image/', views.new_image, name='new_image'),
     url(r'comment/<int:id>', views.comment, name='comment'),
     url('search/', views.searchuser, name='search'),
-
-
 ]
 
 if settings.DEBUG:

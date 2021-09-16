@@ -29,37 +29,37 @@ def signup(request):
         return redirect('login')
     else:
         form = SignUpForm()
-    return render(request,'reg/regform.html')
+    return render(request,'reg/regform.html',{"form": form})
 
 
 @login_required(login_url='/accounts/login/')
 def userprofile(request):
 
     if request.method == 'POST':
-        user_form = userForm(request.POST, instance=request.user)
+        userform = userForm(request.POST, instance=request.user)
         profile_form = profileForm(request.POST,request.FILES,instance=request.user)
-        if profile_form.is_valid() and user_form.is_valid():
-            user_form.save()
+        if profile_form.is_valid() and userform.is_valid():
+            userform.save()
             profile_form.save()
-            return redirect('index')
+            return redirect('homepage')
     else:
         profile_form = profileForm(instance=request.user)
-        user_form = userForm(instance=request.user)
-    return render(request, 'profile.html', {"user_form": user_form, "profile_form": profile_form})
+        userform = userForm(instance=request.user)
+    return render(request, 'profile.html', {"userform": userform, "profile_form": profile_form})
 
 
 def searchuser(request):
-    if 'insta' in request.GET and request.GET['insta']:
-        name = request.GET.get("insta")
-        searchResults = Profile.search_profile(name)
+    if 'gram' in request.GET and request.GET['gram']:
+        name = request.GET.get("gram")
+        search_results = Profile.search_profile(name)
         message = f'name'
         params = {
-            'results': searchResults,
+            'results': search_results,
             'message': message
         }
         return render(request, 'search.html', params)
     else:
-        message = "You haven't searched for any image category"
+        message = "You haven't searched for a user"
     return render(request, 'search.html', {'message': message})
 
 
@@ -68,10 +68,10 @@ def new_image(request):
     if request.method == 'POST':
         form = uploadImageForm(request.POST, request.FILES)
         if form.is_valid():
-            ig_post = form.save(commit=False)
-            ig_post.profile = request.user.profile
-            ig_post.save()
-            return redirect("index")
+            new_post = form.save(commit=False)
+            new_post.profile = request.user.profile
+            new_post.save()
+            return redirect('homepage')
     else:
         form = uploadImageForm()
     return render(request, 'new_image.html', {"form": form})
@@ -80,7 +80,7 @@ def new_image(request):
 def comment(request, image_id):
     current_user = request.user
     images = Image.objects.get(id=image_id)
-    user_profile = Profile.objects.get(username=current_user)
+    userprofile = Profile.objects.get(username=current_user)
     comments = Comment.objects.all()
 
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def comment(request, image_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.image_post = images
-            comment.comment_by = user_profile
+            comment.comment_by = userprofile
             comment.save()
         return redirect('homepage')
     else:

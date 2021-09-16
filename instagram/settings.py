@@ -18,6 +18,7 @@ from os import environ
 import cloudinary
 import cloudinary.uploader
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -36,7 +37,7 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS')
 # Application definition
 
 INSTALLED_APPS = [
-    'gram.apps.GramConfig',
+    'gram',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -143,6 +145,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

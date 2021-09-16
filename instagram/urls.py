@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'',include ('gram.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
-    url(r'signout/$', views.LogoutView.as_view(), {"next_page": '/'}),   
+    url(r'^logout/$', views.LogoutView.as_view(), {"next_page": '/'}),
 ]
