@@ -9,6 +9,7 @@ psycopg2-binary = "*"
 cloudinary = "*"
 django = "*"
 gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
