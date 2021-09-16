@@ -1,4 +1,4 @@
-from gram.models import Image, Profile
+from gram.models import Image, Profile,Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.utils.encoding import force_text
@@ -10,7 +10,7 @@ from .tokens import account_activation_token
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
-from .forms import SignUpForm
+from .forms import SignUpForm,profileForm,uploadImageForm,commentForm,userForm
 from django.shortcuts import render,redirect
 from .tokens import account_activation_token
 
@@ -26,7 +26,20 @@ def homepage(request):
     return render(request, 'index.html',{'title':title,'profile':profile,'posts':posts})
 
 
+@login_required(login_url='/accounts/login/')
+def profile(request):
 
+    if request.method == 'POST':
+        user_form = userForm(request.POST, instance=request.user)
+        profile_form = profileForm(request.POST,request.FILES,instance=request.user)
+        if profile_form.is_valid() and user_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('index')
+    else:
+        profile_form = profileForm(instance=request.user)
+        user_form = userForm(instance=request.user)
+    return render(request, 'profile.html', {"user_form": user_form, "profile_form": profile_form})
 
 def activation_sent_view(request):
     return render(request, 'reg/activation_sent.html')
