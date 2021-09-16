@@ -1,18 +1,9 @@
 from gram.models import Image, Profile,Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth import login,authenticate
-from django.utils.encoding import force_text
-from django.contrib.auth.models import User
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from .tokens import account_activation_token
-from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
-
 from .forms import SignUpForm,profileForm,uploadImageForm,commentForm,userForm
 from django.shortcuts import render,redirect
-from .tokens import account_activation_token
 
 
 # Create your views here.
@@ -25,15 +16,15 @@ def homepage(request):
     
     return render(request, 'index.html',{'title':title,'profile':profile,'posts':posts})
 
-def register(request):
+def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
             login(request, user)
         return redirect('login')
     else:
@@ -42,7 +33,7 @@ def register(request):
 
 
 @login_required(login_url='/accounts/login/')
-def profile(request):
+def userprofile(request):
 
     if request.method == 'POST':
         user_form = userForm(request.POST, instance=request.user)
@@ -57,31 +48,7 @@ def profile(request):
     return render(request, 'profile.html', {"user_form": user_form, "profile_form": profile_form})
 
 
-
-
-# def activation_sent_view(request):
-#     return render(request, 'reg/activation_sent.html')
-
-# def activate(request, uidb64, token):
-#     try:
-#         uid = force_text(urlsafe_base64_decode(uidb64))
-#         user = User.objects.get(pk=uid)
-#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-#         user = None
-#     # checking if the user exists, if the token is valid.
-#     if user is not None and account_activation_token.check_token(user, token):
-#         # if valid set active true 
-#         user.is_active = True
-#         # set signup_confirmation true
-#         user.profile.signup_confirmation = True
-#         user.save()
-#         login(request, user)
-#         return redirect('home')
-#     else:
-#         return render(request, 'reg/activation_invalid.html')
-
-
-def searchprofile(request):
+def searchuser(request):
     if 'insta' in request.GET and request.GET['insta']:
         name = request.GET.get("insta")
         searchResults = Profile.search_profile(name)
@@ -95,7 +62,8 @@ def searchprofile(request):
         message = "You haven't searched for any image category"
     return render(request, 'search.html', {'message': message})
 
-def post_image(request):
+
+def new_image(request):
     profile = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = uploadImageForm(request.POST, request.FILES)
@@ -106,7 +74,7 @@ def post_image(request):
             return redirect("index")
     else:
         form = uploadImageForm()
-    return render(request, 'post_image.html', {"form": form})
+    return render(request, 'new_image.html', {"form": form})
 
 @login_required(login_url='accounts/login/')
 def comment(request, image_id):
@@ -122,35 +90,8 @@ def comment(request, image_id):
             comment.image_post = images
             comment.comment_by = user_profile
             comment.save()
-        return redirect('index')
+        return redirect('homepage')
     else:
         form = commentForm()
-    return render(request, 'comment.html', {"form": form, "images": images, 'comments': comments})
-
-# def signup_view(request):
-#     if request.method == 'POST':
-#         form = SignUpForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.refresh_from_db()
-#             user.profile.full_name = form.cleaned_data.get('full_name')
-#             user.profile.email = form.cleaned_data.get('email')
-
-#             user.is_active = False
-#             user.save()
-#             current_site = get_current_site(request)
-#             subject = 'Please Activate Your Account'
-
-#             message = render_to_string('reg/activation_request.html', {
-#                 'user': user,
-#                 'domain': current_site.domain,
-#                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#                 # method will generate a hash value with user related data
-#                 'token': account_activation_token.make_token(user),
-#             })
-#             user.email_user(subject, message)
-#             return redirect('activation_sent')
-#     else:
-#         form = SignUpForm()
-#     return render(request, 'reg/regform.html',{'form':form})
+    return render(request, 'new_comment.html', {"form": form, "images": images, 'comments': comments})
 
