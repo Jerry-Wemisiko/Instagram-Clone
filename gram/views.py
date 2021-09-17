@@ -1,7 +1,6 @@
-from gram.models import Image, Profile,Comment,Users
+from gram.models import Image, Profile,Users
 from django.shortcuts import render, redirect
-from django.contrib.auth import login,authenticate
-from gram.forms import SignUpForm,profileForm,uploadImageForm,commentForm
+from django.contrib.auth import login,authenticate,logout
 from django.shortcuts import render,redirect
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -17,13 +16,8 @@ def homepage(request):
 
 def signUp(request):
     if request.method == "POST":
-        form = SignUpForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            username = username = request.POST['fullname']
+            username = request.POST['username']
             email = request.POST['email']
-            print(email)
             password = request.POST['password']
             confirm_password = request.POST['confirm_password']
             if password == confirm_password:
@@ -39,12 +33,13 @@ def signIn(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(username=email, password=password)
+        user = authenticate(email=email, password=password)
         if user is not None:
             login(request, user)
             messages.add_message(request, messages.SUCCESS, "Logged in succesfully")
             return redirect('homepage')
-
+        else:
+            print('User not found')
     return render(request, 'reg/login.html')
 
 def signOut(request):
@@ -54,11 +49,9 @@ def signOut(request):
 
 def userprofile(request):
     profiles = Profile.objects.all()
-    if request.method == 'POST':
-        photo= request.FILES['photo']
-        bio = request.POST['bio']
+    posts = Image.objects.all()
 
-    return render(request, 'profile.html', {"userform": userform, "profile_form": profile_form})
+    return render(request, 'profile.html',)
 
 
 def searchuser(request):
@@ -88,22 +81,4 @@ def new_image(request):
     else:
         form = uploadImageForm()
     return render(request, 'new_image.html', {"form": form})
-
-def comment(request, image_id):
-    current_user = request.user
-    images = Image.objects.get(id=image_id)
-    userprofile = Profile.objects.get(username=current_user)
-    comments = Comment.objects.all()
-
-    if request.method == 'POST':
-        form = commentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.image_post = images
-            comment.comment_by = userprofile
-            comment.save()
-        return redirect('homepage')
-    else:
-        form = commentForm()
-    return render(request, 'new_comment.html', {"form": form, "images": images, 'comments': comments})
 

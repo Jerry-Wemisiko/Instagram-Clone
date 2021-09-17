@@ -13,12 +13,20 @@
 
                 <img src="{{feed.image.url}}" class="img-responsive" alt="" style="border-radius: 3px;">
                 <div class="panel-footer">
-                    <a><img src="https://img.icons8.com/ios/30/000000/like.png" /></a>
-                    <a href="{{feed.id}}"><img src="https://img.icons8.com/ios/30/000000/topic.png" /></a>
-                    <a><img src="https://img.icons8.com/material-outlined/30/000000/filled-sent.png" /></a>
-                    <p>
-                        <small style="font-family: cursive;"><strong>{{feed.profile}}</strong>: {{feed.caption}}</small>
-                    </p>
+                    <div class="flex">
+                            <a><img src="https://img.icons8.com/ios/30/000000/like.png" /></a>
+                        <a href="{{feed.id}}"><img src="https://img.icons8.com/ios/30/000000/topic.png" /></a>
+                        <a><img src="https://img.icons8.com/material-outlined/30/000000/filled-sent.png" /></a>
+                        <p>
+                            <small style="font-family: cursive;"><strong>{{feed.profile}}</strong>: {{feed.image_caption}}</small>
+                        </p>
+                    </div>
+                    <p><small>View all comments{{comments.count}}</small></p>
+
+                    <div class="end">
+                        <input type="text" placeholder="Add a Comment" style="padding: 10px;">
+                    </div>
+                    
                 </div>
             </div>
         </div>

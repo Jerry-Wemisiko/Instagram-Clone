@@ -146,9 +146,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 
+AUTH_USER_MODEL = "gram.Users"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -1,27 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.fields.related import ManyToManyField
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 # Create your models here.
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    full_name = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(max_length=150,blank=True)
-    bio = models.TextField()
-    photo = CloudinaryField('prof',null=True)
-    signup_confirmation = models.BooleanField(default=False)
-
-    def __str__(self) -> str:
-        return self.user.username
-
-    def save_profile(self):
-        self.user.save()
-        
-    @classmethod
-    def search_profile(cls,uname):
-        return cls.object.filter(user__username__icontains=uname).all()
 
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -50,11 +31,12 @@ class MyAccountManager(BaseUserManager):
         user.is_superuser = True 
         user.save(using=self._db)
         return user
-        
+
+
 class Users(AbstractBaseUser):
     username = models.CharField( max_length=20, unique=True)  
     email = models.CharField( max_length=50, unique=True)
-    name = models.CharField( max_length=50, unique=False, default="Male")
+    name = models.CharField( max_length=50, unique=False)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -62,7 +44,8 @@ class Users(AbstractBaseUser):
     password = models.CharField( max_length=100)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['password']
+    REQUIRED_FIELDS = ['username','password']
+ 
     
     objects=MyAccountManager()
      
@@ -76,10 +59,29 @@ class Users(AbstractBaseUser):
         return True
 
 
+        
+class Profile(models.Model):
+    user = models.OneToOneField('Users', on_delete = models.CASCADE)
+    full_name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(max_length=150,blank=True)
+    bio = models.TextField()
+    photo = CloudinaryField('prof',null=True,blank=True,default='img')
+    signup_confirmation = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return f'{self.user.username}'
+
+    def save_profile(self):
+        self.user.save()
+        
+    @classmethod
+    def search_profile(cls,uname):
+        return cls.object.filter(user__username__icontains=uname).all()
+
 class Image(models.Model):
     image= CloudinaryField('image')
     image_name = models.CharField(max_length=30)
-    image_caption = models.CharField(max_length=100,blank=True)
+    image_caption = models.CharField(max_length=100)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     comments = models.TextField(max_length=500, blank=True)
     likes = models.ManyToManyField(User,blank=True)
