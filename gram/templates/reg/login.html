@@ -1,40 +1,57 @@
 {% extends 'reg/base.html' %}
 {% block content %}
 {% load static %}
-<div class="container">
-  <div class="row">
-    <!-- Empty div -->
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-      {% if form.errors %}
+<div class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <!-- Empty div -->
+      <div class="col-md-4">
+
+
+
+      </div>
+
+      <div class="col-md-4">
+        {% if form.errors %}
         <p> Password or Username is incorrect </p>
-      {% endif %}
-      <div class="panel panel-default">
+        {% endif %}
+        <div class="panel panel-default">
 
-        <div class="panel-heading">
-          <h3 class="text-center">Sign In</h3>
-        </div>
-        <div class="panel-body">
+          <div class="panel-heading">
+            <h3 class="text-center">Sign In</h3>
+          </div>
+          <div class="panel-body">
 
-          <form  action="/accounts/login/" method="post">
-            {% csrf_token %}
-            <p><a href="/signup"><small>Sign up</small></a></p>
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary btn-sm" value="Login">
-            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class="form-outline mb-3">
+                <input type="email"  name="email" class="form-control" />
+                <label class="form-label" >Email</label>
+              </div>
 
-            <input type="hidden" name="next" value="{{next}}">
 
-          </form>
+              <div class="form-outline">
+                <input type="password" name="password"  class="form-control" />
+                <label class="form-label" >Password</label>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block mt-3">Log in</button>
+                <div class="py-2">
+                  <a href=""><small> Forgot password?</small></a>
+                </div>
+
+            </form>
+
+          </div>
 
         </div>
 
       </div>
-
+      <!-- empty div -->
+      <div class="col-md-4"></div>
     </div>
-    <!-- empty div -->
-    <div class="col-md-4"></div>
   </div>
 </div>
+
 
 {% endblock %}

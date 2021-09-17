@@ -1,13 +1,12 @@
-from gram.models import Image, Profile,Comment
+from gram.models import Image, Profile,Comment,Users
 from django.shortcuts import render, redirect
 from django.contrib.auth import login,authenticate
-from django.contrib.auth.decorators import login_required
-from .forms import SignUpForm,profileForm,uploadImageForm,commentForm,userForm
+from gram.forms import SignUpForm,profileForm,uploadImageForm,commentForm
 from django.shortcuts import render,redirect
-
+from django.contrib.auth.hashers import make_password
+from django.contrib import messages
 
 # Create your views here.
-@login_required(login_url='/accounts/login/')
 def homepage(request):
     
     title = 'Clone'
@@ -16,36 +15,49 @@ def homepage(request):
     
     return render(request, 'index.html',{'title':title,'profile':profile,'posts':posts})
 
-def signup(request):
+def signUp(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
 
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            
-            user = authenticate(username=username, password=password)
-            login(request, user)
-        return redirect('login')
-    else:
-        form = SignUpForm()
-    return render(request,'reg/regform.html',{"form": form})
-
-
-@login_required(login_url='/accounts/login/')
-def userprofile(request):
-
+            username = username = request.POST['fullname']
+            email = request.POST['email']
+            print(email)
+            password = request.POST['password']
+            confirm_password = request.POST['confirm_password']
+            if password == confirm_password:
+                user = Users(username=username, email=email,password=make_password(password))
+                user.save()
+                messages.add_message(request, messages.SUCCESS, "Account created successfully!")
+                return redirect('signIn')
+            else:
+                print("Passsword is incorrect")
+    return render(request, 'reg/regform.html')
+  
+def signIn(request):
     if request.method == 'POST':
-        userform = userForm(request.POST, instance=request.user)
-        profile_form = profileForm(request.POST,request.FILES,instance=request.user)
-        if profile_form.is_valid() and userform.is_valid():
-            userform.save()
-            profile_form.save()
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.add_message(request, messages.SUCCESS, "Logged in succesfully")
             return redirect('homepage')
-    else:
-        profile_form = profileForm(instance=request.user)
-        userform = userForm(instance=request.user)
+
+    return render(request, 'reg/login.html')
+
+def signOut(request):
+    logout(request)
+    messages.add_message(request, messages.SUCCESS, "Successfully logged Out!")
+    return redirect("signIn") 
+
+def userprofile(request):
+    profiles = Profile.objects.all()
+    if request.method == 'POST':
+        photo= request.FILES['photo']
+        bio = request.POST['bio']
+
     return render(request, 'profile.html', {"userform": userform, "profile_form": profile_form})
 
 
@@ -77,7 +89,6 @@ def new_image(request):
         form = uploadImageForm()
     return render(request, 'new_image.html', {"form": form})
 
-@login_required(login_url='accounts/login/')
 def comment(request, image_id):
     current_user = request.user
     images = Image.objects.get(id=image_id)

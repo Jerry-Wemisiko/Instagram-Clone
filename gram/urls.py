@@ -6,11 +6,11 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('homepage',views.homepage, name='homepage'),
-    path('',views.signup,name = 'signup'),
-    path('login', auth_views.LoginView.as_view(), name='signin'),
+    path('',views.signIn,name = 'signin'),
+     path('signUp', views.signUp, name='signUp'),
+    path('logOut', views.signOut, name='signOut'),
     path('profile', views.userprofile, name='userprofile'),
     path('add/image/', views.new_image, name='new_image'),
-    path('comment/<int:id>', views.comment, name='comment'),
     path('search/', views.searchuser, name='search'),
 ]
 

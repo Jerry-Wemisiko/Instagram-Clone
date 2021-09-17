@@ -16,12 +16,6 @@ class profileForm(forms.ModelForm):
         model = Profile
         fields = ['user','full_name', 'bio']        
 
-class userForm(forms.ModelForm):
-    email = forms.EmailField()
-    class Meta:
-        model= User
-        fields= ['username', 'email']
-
 
 class uploadImageForm(forms.ModelForm):
     class Meta:

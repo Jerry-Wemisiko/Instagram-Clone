@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.fields.related import ManyToManyField
 from cloudinary.models import CloudinaryField
-
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 # Create your models here.
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     full_name = models.CharField(max_length=100, blank=True)
@@ -16,16 +17,63 @@ class Profile(models.Model):
         return self.user.username
 
     def save_profile(self):
-        return self.user.save()
-
-    @classmethod        
-    def update_profile(cls, id, profile):
-        cls.objects.filter(id=id).update(profile=profile)
-
+        self.user.save()
+        
     @classmethod
     def search_profile(cls,uname):
         return cls.object.filter(user__username__icontains=uname).all()
 
+class MyAccountManager(BaseUserManager):
+    def create_user(self, email, username, password=None):
+        if not email:
+            raise ValueError(" User must have an email address")
+        if not username:
+            raise ValueError(" User must have an username!")    
+        
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, email, username, password):
+        user = self.create_user(
+            email=self.normalize_email(email),
+            password = password,
+            username=username,
+        )
+        user.email = email
+        user.is_admin = True 
+        user.is_staff = True 
+        user.is_superuser = True 
+        user.save(using=self._db)
+        return user
+        
+class Users(AbstractBaseUser):
+    username = models.CharField( max_length=20, unique=True)  
+    email = models.CharField( max_length=50, unique=True)
+    name = models.CharField( max_length=50, unique=False, default="Male")
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    password = models.CharField( max_length=100)
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['password']
+    
+    objects=MyAccountManager()
+     
+    def _str_(self):
+        return self.email
+    
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return True
 
 
 class Image(models.Model):
@@ -34,7 +82,7 @@ class Image(models.Model):
     image_caption = models.CharField(max_length=100,blank=True)
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
     comments = models.TextField(max_length=500, blank=True)
-    likes = models,ManyToManyField(User,blank=True)
+    likes = models.ManyToManyField(User,blank=True)
 
     def __str__(self) -> str:
         return f'{self.image}'
@@ -56,8 +104,6 @@ class Image(models.Model):
     @property
     def likes(self):
         return self.likes.count()
-
-
 
 class Comment(models.Model):
     comment = models.TextField()
