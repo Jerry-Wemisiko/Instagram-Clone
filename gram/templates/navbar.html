@@ -4,6 +4,12 @@
         padding: 0;
         box-sizing: border-box;
     }
+    .body{
+        width: 100%;
+        background: #fafafa;
+        position: relative;
+        font-family: 'roboto',sans-serif;
+    }
     *:focus{
         outline: none;
     }
@@ -24,7 +30,7 @@
         max-width:1000px;
         height:100%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
     .brand-img{
@@ -34,7 +40,7 @@
     .search-box{
         position: absolute;
         left: 50%;
-        transform: translate(-50%);
+        transform: translateX(-50%);
         width: 200px;
         height: 25px;
         background: #fafafa;
@@ -50,8 +56,6 @@
     .nav-items{
         height:22px;
         position: relative;
-        right: 0;
-        margin-left: 50%;
     }
     .icon{
         height: 100%;
@@ -62,28 +66,30 @@
     .user-profile{
     width: 22px;
     border-radius: 50%;
-    background-image: url(img/profile) ;
+    background-image: url(static/img/profile-pic.png) ;
     background: cover;
     }
 </style>
 {% load static %}
-<nav class="navbar navbar navbar-expand-lg fixed-top navbar-light">
-    <div class="nav-wrapper" >
-
-        
-        <img src="{% static '/img/logo.PNG' %}"  class="brand-img" alt="">
-        <input type="text" class="search-box" placeholder="search">
-        <div class="nav-items ">
-            <img src="{% static '/img/home.PNG' %}" alt="" class="icon">
-            <img src="{% static '/img/messenger.PNG' %}" alt="" class="icon">
-            <img src="{% static '/img/add.PNG' %}" alt="" class="icon">
-            <img src="{% static '/img/explore.PNG' %}" alt="" class="icon">
-            <img src="{% static '/img/loke.PNG' %}" alt="" class="icon">
-            <div class="icon user-profile"></div>
+<div class="body">
+    <nav class="navbar navbar navbar-expand-lg fixed-top navbar-light">
+        <div class="nav-wrapper" >
+    
+            
+            <img src="{% static '/img/logo.PNG' %}"  class="brand-img" alt="">
+            <input type="text" class="search-box" placeholder="search">
+            <div class="nav-items">
+                <img src="{% static '/img/home.PNG' %}" alt="" class="icon">
+                <img src="{% static '/img/messenger.PNG' %}" alt="" class="icon">
+                <img src="{% static '/img/add.PNG' %}" alt="" class="icon">
+                <img src="{% static '/img/explore.PNG' %}" alt="" class="icon">
+                <img src="{% static '/img/like.PNG' %}" alt="" class="icon">
+                <div class="icon user-profile"></div>
+            </div>
         </div>
-    </div>
-
-
     
     
-</nav>
+        
+        
+    </nav>
+</div>

@@ -1,12 +1,130 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+
 <style>
     .container{
         margin-top: 10px;
     }
+    .main{
+        width:100%;
+        padding:40px 0;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+    .wrapper{
+        width: 70%;
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: 60% 40%;
+        grid-gap:30px; 
+    }
+    .left-col{
+        display: flex;
+        flex-direction: column;
+
+    }
+    .status-wrapper{
+        margin-left: 15px;
+        width: 740px;
+        height: 120px;
+        border: 1px solid #dfdfdf;
+        border-radius: 2px;
+        padding: 5px;
+        display: flex;
+        padding-right: 0;
+        align-items: center;
+    }
+    .status-card{
+        flex:0 0 auto;
+        width: 80px;
+        max-width: 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 20px;   
+    }
+    .prof{
+    background: linear-gradient(45deg ,rgb(223, 10, 10),rgb(251, 228, 13));
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 3px;
+    }
+    .prof img{
+     width: 100%;
+     height: 100%;   
+     object-fit: cover;
+     border-radius: 50%;
+     border: 2px solid #fff;
+    }
+    .profil{
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+        font-size: 12px;
+        margin-top: 5px;
+        color:gray;
+    }
+    
 </style>
+
 <div class="container">
+    <section class="main">
+        <div class="wrapper">
+            <div class="left-col">
+                <div class="status-wrapper">
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+
+                    <div class="status-card">
+                        <div class="prof">
+                            <img src="static/img/prof.png" alt="" srcset=""></div> 
+                            <p class="profil">skyles</p>          
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="right-col">
+
+            </div>
+
+        </div>
+
+    </section>
     <div class="row">
         {% for feed in posts %}
         <div class="col-sm-12 col-md-8 offset-md-2 mt-5">
