@@ -62,7 +62,7 @@ class Users(AbstractBaseUser):
         
 class Profile(models.Model):
     user = models.OneToOneField('Users', on_delete = models.CASCADE)
-    full_name = models.CharField(max_length=100, blank=True)
+    username = models.CharField(max_length=100, blank=True)
     email = models.EmailField(max_length=150,blank=True)
     bio = models.TextField()
     photo = CloudinaryField('prof',null=True,blank=True,default='img')
@@ -79,6 +79,7 @@ class Profile(models.Model):
         return cls.object.filter(user__username__icontains=uname).all()
 
 class Image(models.Model):
+    user = models.ForeignKey('Users', on_delete=models.CASCADE)
     image= CloudinaryField('image')
     image_name = models.CharField(max_length=30)
     image_caption = models.CharField(max_length=100)

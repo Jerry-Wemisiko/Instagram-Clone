@@ -52,8 +52,15 @@ def signOut(request):
 def userprofile(request):
     profiles = Profile.objects.all()
     posts = Image.objects.all()
+    if request.method == 'POST':
+        photo = request.FILES['photo']
+        bio = request.POST['bio']
+        profile = Profile(photo=photo,bio=bio)
+        profile.save()
+        return redirect('profile')
 
-    return render(request, 'profile.html',)
+    context={"profiles":profiles,"posts":posts}
+    return render (request,'profile.html', context)
 
 
 def searchuser(request):

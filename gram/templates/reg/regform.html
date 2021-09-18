@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-
+        
         <div class="col-md-4">
 
         </div>
@@ -23,24 +23,28 @@
                     </div>
                     {% endif %}
     
-    
-    
                     <form action="" method="post">
                         {% csrf_token %}
                         <div class="form-group">
                             <input type="text" name="username" class="form-control form-control-sm" required placeholder="Fullname">
+                            <label class="form-label" for="form2Example1">Username</label>
+
                           </div>
                         <div class="form-group">
                             <input type="email" name="email" class="form-control form-control-sm" required placeholder="Email">
+                            <label class="form-label" for="typePassword">Password</label>
+
                           </div>
                         
                           <div class="form-group">
                             <input type="password" name="password" class="form-control form-control-sm" required placeholder="Password">
+                            <label class="form-label" for="typeConfirm_Password">Confirm_Password</label>
+
                           </div>
                           <div class="form-group">
                             <input type="password" name="confirm_password" class="form-control form-control-sm" required placeholder="Confirm password">
                           </div>
-                          <a href="{% url 'signUp' %}"><button type="submit" class="btn btn-sm btn-primary form-control form-control-sm font-weight-bold">Sign Up</button></a>
+                          <button type="submit" class="btn btn-sm btn-primary form-control form-control-sm font-weight-bold">Sign Up</button>
                      </form>  
 
                      <div class="card px-3 mt-2 p-3 rounded-0 text-center register">
