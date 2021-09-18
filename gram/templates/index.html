@@ -46,7 +46,7 @@
         margin-right: 20px;   
     }
     .prof{
-    background: linear-gradient(45deg ,rgb(223, 10, 10),rgb(251, 228, 13));
+      background: linear-gradient(45deg ,rgb(223, 10, 10),rgb(251, 228, 13));
       width: 70px;
       height: 70px;
       border-radius: 50%;
@@ -68,7 +68,42 @@
         margin-top: 5px;
         color:gray;
     }
-    
+    .user{
+        width: 100%;
+        height: 80px;
+        display: flex;
+       align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        background: #fff;
+        border:1px solid #dfdfdf;
+        margin-bottom: 0;
+
+       
+    }
+    .infopic{
+     background: linear-gradient(45deg ,rgb(223, 10, 10),rgb(251, 228, 13));
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 3px;
+    }
+    .infopic img{
+    width: 100%;
+     height: 100%;  
+     object-fit: cover;
+     border-radius: 50%;
+     border: 2px solid #fff;
+    }
+    .post{
+        width: 100%;
+        width: 1005;
+    }
+    .img{
+        width: 100%;
+        width: 100%;
+    }
 </style>
 
 <div class="container">
@@ -126,13 +161,25 @@
 
     </section>
     <div class="row">
+   
         {% for feed in posts %}
         <div class="col-sm-12 col-md-8 offset-md-2 mt-5">
+            <div class="post">
+                 <div class="about">
+                     <div class="user">  
+                        <div class="infopic"><img src="static/img/axel-antas-bergkvist-XUdIi04ohps-unsplash.jpg" alt="" srcset=""></div>
+                        <img src="static/img/option.PNG" alt="" srcset=""> 
+                     </div>
+         
+                    
+                 </div>           
+            </div>
             <div class="panel panel-default">
 
                 <img src="{{feed.image.url}}" class="img-responsive" alt="" style="border-radius: 3px;">
                 <div class="panel-footer">
-                    <div class="flex">
+                  
+                    <div class="img">
                             <a><img src="{% static '/img/like.PNG' %}" /></a>
                         <a href="{{feed.id}}"><img src="{% static '/img/comment.PNG' %}" /></a>
                         <a><img src="{% static '/img/send.PNG' %}" /></a>

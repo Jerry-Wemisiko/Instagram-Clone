@@ -24,6 +24,7 @@ whitenoise = "==5.3.0"
 Django = "==3.2.7"
 Pillow = "==8.3.2"
 confusable_homoglyphs = "==3.2.0"
+bootstrap4 = "*"
 
 [dev-packages]
 

@@ -38,6 +38,7 @@ ALLOWED_HOSTS = environ.get('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
     'gram',
+    'bootstrap4',
     'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
