@@ -1,7 +1,18 @@
 {% extends 'reg/base.html' %}
 {% load static %}
 {% block content %}
-<style></style>
+<style>
+       * {
+  box-sizing: border-box;
+  background: none;
+
+   }
+    .card{
+        margin-top: 100px;
+             
+    }
+ 
+</style>
 <div class="container">
     <div class="row">
         
@@ -10,12 +21,12 @@
 
         </div>
 
-        <div class=" col-sm-4 col-md-5 info" >
+        <div class=" col-sm-4 col-md-5 " >
             <!-- <img src="{% static '/img/sidepanel.jpg' %}" alt="" srcset=""> -->
             <div class="card">
                 <div class="card-body">
                     <div class="panel-heading">
-                        <h3 class="text-center" style="font-family: 'Pacifico',cursive; margin-bottom: 15px;">Instagram</h3>
+                        <h3 class="text-center" style="font-family: 'Pacifico',cursive; margin-bottom: 15px;">Instagram Sign Up</h3>
                     </div>
     
                     {% if messages %}
@@ -26,7 +37,7 @@
                     </div>
                     {% endif %}
     
-                    <form action="" method="post">
+                    <form action="" method="post" >
                         {% csrf_token %}
                         <div class="form-group">
                             <input type="text" name="username" class="form-control form-control-sm" required placeholder="Fullname">
@@ -45,8 +56,8 @@
                           <button type="submit" class="btn btn-sm btn-primary form-control form-control-sm font-weight-bold">Sign Up</button>
                      </form>  
 
-                     <div class="card px-3 mt-2 p-3 rounded-0 text-center ">
-                        <div class= "text-center">
+                     <div class="card px-3 mt-2 p-3 rounded-0 ">
+                        <div class= "text-center"style="border-radius: 3px">
                          <small><p><strong> <em>Have an account? </em> </strong><a href="{% url 'signIn' %}">Login</a></p></small> 
                         </div>  
                       </div> 
