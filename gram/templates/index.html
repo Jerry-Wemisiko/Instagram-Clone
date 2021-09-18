@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 <style>
     .container{
         margin-top: 10px;
@@ -8,17 +9,17 @@
 <div class="container">
     <div class="row">
         {% for feed in posts %}
-        <div class="col--12 col-md-8 offset-md-2 mt-5">
+        <div class="col-sm-12 col-md-8 offset-md-2 mt-5">
             <div class="panel panel-default">
 
                 <img src="{{feed.image.url}}" class="img-responsive" alt="" style="border-radius: 3px;">
                 <div class="panel-footer">
                     <div class="flex">
-                            <a><img src="https://img.icons8.com/ios/30/000000/like.png" /></a>
-                        <a href="{{feed.id}}"><img src="https://img.icons8.com/ios/30/000000/topic.png" /></a>
-                        <a><img src="https://img.icons8.com/material-outlined/30/000000/filled-sent.png" /></a>
+                            <a><img src="{% static '/img/like.PNG' %}" /></a>
+                        <a href="{{feed.id}}"><img src="{% static '/img/comment.PNG' %}" /></a>
+                        <a><img src="{% static '/img/send.PNG' %}" /></a>
                         <p>
-                            <small style="font-family: cursive;"><strong>{{feed.profile}}</strong>: {{feed.image_caption}}</small>
+                            <p style="font-family: cursive; font-size: 20px;"><strong>{{feed.profile}}</strong>: {{feed.image_caption}}</p> 
                         </p>
                     </div>
                     <p><small>View all comments{{comments.count}}</small></p>

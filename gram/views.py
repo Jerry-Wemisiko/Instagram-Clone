@@ -27,7 +27,7 @@ def signUp(request):
                 return redirect('signIn')
             else:
                 print("Passsword is incorrect")
-    return render(request, 'reg/regform.html')
+    return render(request,'reg/regform.html')
   
 def signIn(request):
     if request.method == 'POST':
@@ -39,7 +39,9 @@ def signIn(request):
             messages.add_message(request, messages.SUCCESS, "Logged in succesfully")
             return redirect('homepage')
         else:
-            print('User not found')
+            messages.add_message(request, messages.ERROR, "Sorry!")
+        return redirect('signIn')
+           
     return render(request, 'reg/login.html')
 
 def signOut(request):
@@ -67,18 +69,3 @@ def searchuser(request):
     else:
         message = "You haven't searched for a user"
     return render(request, 'search.html', {'message': message})
-
-
-def new_image(request):
-    profile = Profile.objects.get_or_create(user=request.user)
-    if request.method == 'POST':
-        form = uploadImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_post = form.save(commit=False)
-            new_post.profile = request.user.profile
-            new_post.save()
-            return redirect('homepage')
-    else:
-        form = uploadImageForm()
-    return render(request, 'new_image.html', {"form": form})
-
