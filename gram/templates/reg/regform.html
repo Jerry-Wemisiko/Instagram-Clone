@@ -1,18 +1,21 @@
 {% extends 'reg/base.html' %}
 {% load static %}
 {% block content %}
+<style></style>
 <div class="container">
     <div class="row">
         
         <div class="col-md-4">
+            
 
         </div>
 
-        <div class=" col-md-4 ">
+        <div class=" col-sm-4 col-md-5 info" >
+            <!-- <img src="{% static '/img/sidepanel.jpg' %}" alt="" srcset=""> -->
             <div class="card">
                 <div class="card-body">
                     <div class="panel-heading">
-                        <h3 class="text-center">Sign Up</h3>
+                        <h3 class="text-center" style="font-family: 'Pacifico',cursive; margin-bottom: 15px;">Instagram</h3>
                     </div>
     
                     {% if messages %}
@@ -27,19 +30,14 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <input type="text" name="username" class="form-control form-control-sm" required placeholder="Fullname">
-                            <label class="form-label" for="form2Example1">Username</label>
-
                           </div>
                         <div class="form-group">
                             <input type="email" name="email" class="form-control form-control-sm" required placeholder="Email">
-                            <label class="form-label" for="typePassword">Password</label>
 
                           </div>
                         
                           <div class="form-group">
                             <input type="password" name="password" class="form-control form-control-sm" required placeholder="Password">
-                            <label class="form-label" for="typeConfirm_Password">Confirm_Password</label>
-
                           </div>
                           <div class="form-group">
                             <input type="password" name="confirm_password" class="form-control form-control-sm" required placeholder="Confirm password">
@@ -47,9 +45,9 @@
                           <button type="submit" class="btn btn-sm btn-primary form-control form-control-sm font-weight-bold">Sign Up</button>
                      </form>  
 
-                     <div class="card px-3 mt-2 p-3 rounded-0 text-center register">
+                     <div class="card px-3 mt-2 p-3 rounded-0 text-center ">
                         <div class= "text-center">
-                         <small><p>Already registered? <a href="{% url 'signIn' %}">Login</a></p></small> 
+                         <small><p><strong> <em>Have an account? </em> </strong><a href="{% url 'signIn' %}">Login</a></p></small> 
                         </div>  
                       </div> 
                       
@@ -57,11 +55,11 @@
                         <small><p>Get the app.</p></small>
                     </div>
       
-                    <div class="text-center" style="display: flex;flex-direction: row; padding: 3px;">
-                        <img src="{% static '/img/appstore.png' %}" alt="appstore" style="width:80px; height:30px;"
-                            class="img-responsive">
+                    <div class="text-center" >
+                        <img src="{% static '/img/appstore.png' %}" alt="appstore" style="width:100px; height:40px;"
+                            class="rounded float-left">
                         <img src="{% static '/img/playstore.png' %}" alt=""
-                            style="width:80px; height:30px;margin-left: 20px;" class="img-responsive">
+                            style="width:100px; height:40px;margin-left: 20px;" class="rounded float-right">
                     </div>
                 </div>
     
