@@ -64,10 +64,8 @@
         display: inline-block;
     }
     .user-profile{
-    width: 22px;
+    width: 28px;
     border-radius: 50%;
-    background-image: url(static/img/profile-pic.png) ;
-    background: cover;
     }
 </style>
 {% load static %}
@@ -84,7 +82,8 @@
                 <img src="{% static '/img/add.PNG' %}" alt="" class="icon">
                 <img src="{% static '/img/explore.PNG' %}" alt="" class="icon">
                 <img src="{% static '/img/like.PNG' %}" alt="" class="icon">
-                <div class="icon user-profile"></div>
+                <img class="user-profile" src="{% static '/img/set.jpg' %}" alt="" srcset="">
+              
             </div>
         </div>
     
