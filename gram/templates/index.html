@@ -105,11 +105,43 @@
         width: 100%;
         width: 100%;
     }
-    input{
-        width: 100%;
-        height: 100%;
-       
+    /* input::placeholder{
+        padding: 10;   
+    } */
+    .compic{
+     
+      overflow: hidden;
+      padding: 3px;
     }
+    .com{
+        width: 100%;
+        height: 80px;
+        display: flex;
+       align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        background: #fff;
+        border:none ;
+        margin-bottom: 0;  
+    }
+
+    .compic{
+     /* background: linear-gradient(45deg ,rgb(223, 10, 10),rgb(251, 228, 13)); */
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 3px;
+    }
+    .compic img{
+    width: 100%;
+     height: 100%;  
+     object-fit: cover;
+     border-radius: 50%;
+     border: 2px solid #fff;
+    }
+
+    
 </style>
 
 <div class="container">
@@ -195,10 +227,17 @@
                     </div>
                     <p><small> <strong>1,212 likes</strong> </small></p><br>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu turpis purus.</p>
-                    <input c type="text" placeholder="Add a Comment" style="padding: 10px;">
-          
-                    
+                 
+                   <div class="com">  
+                        <div class="compic"><img src="static/img/smile.PNG" alt="" srcset=""></div>
+                        <input c type="text" placeholder="Add a Comment" style="border-left: none; border-right: none; border-top: none; width: 100%; height: 100%;"> 
+                    </div>
+                  
+                 
+                
                 </div>
+                    
+              
             </div>
         </div>
         {% endfor %}
