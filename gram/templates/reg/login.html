@@ -5,9 +5,13 @@
   .log{
     margin-top: 100px;
   }
+  .pane{
+    margin-top: 50px;
+  }
 </style>
 <div class="container-fluid">
   <div class="container log">
+   
     <div class="row">
       <!-- Empty div -->
       <div class="col-md-4">
@@ -18,36 +22,42 @@
         {% if form.errors %}
         <p> Password or Username is incorrect </p>
         {% endif %}
-        <div class="panel panel-default">
+        <div class="card log">
+          <div class="card-body " style="margin-top: 20px;">
+            <div class="panel panel-default ">
 
-          <div class="panel-heading">
-            <h3 class="text-center" style="font-family: 'Pacifico',cursive; margin-bottom: 15px;">Instagram Sign In</h3>
-          </div>
-          <div class="panel-body log">
-
-            <form action="" method="post">
-              {% csrf_token %}
-              <div class="form-outline mb-3">
-                <input type="email"  name="email" class="form-control" />
-                <label class="form-label" >Email</label>
+              <div class="panel-heading">
+                <h3 class="text-center" style="font-family: 'Pacifico',cursive; margin-bottom: 15px;">Instagram Sign In</h3>
               </div>
-
-
-              <div class="form-outline">
-                <input type="password" name="password"  class="form-control" />
-                <label class="form-label" >Password</label>
+              <div class="panel-body ">
+    
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <div class="form-outline mb-3">
+                    <input type="email"  name="email" class="form-control" />
+                    <label class="form-label" >Email</label>
+                  </div>
+    
+    
+                  <div class="form-outline">
+                    <input type="password" name="password"  class="form-control" />
+                    <label class="form-label" >Password</label>
+                  </div>
+    
+                  <button type="submit" class="btn btn-primary btn-block mt-3">Log in</button>
+                    <div class="py-2">
+                      <a href="{% url 'signUp' %}"><small> Register</small></a>
+                    </div>
+    
+                </form>
+    
               </div>
-
-              <button type="submit" class="btn btn-primary btn-block mt-3">Log in</button>
-                <div class="py-2">
-                  <a href="{% url 'signUp' %}"><small> Register</small></a>
-                </div>
-
-            </form>
-
+    
+            </div>
           </div>
-
+      
         </div>
+  
 
       </div>
       <!-- empty div -->
