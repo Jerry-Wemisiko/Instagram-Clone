@@ -49,6 +49,7 @@ def signOut(request):
     messages.add_message(request, messages.SUCCESS, "Successfully logged Out!")
     return redirect("signIn") 
 
+
 def userprofile(request):
     profiles = Profile.objects.all()
     posts = Image.objects.all()
@@ -62,7 +63,10 @@ def userprofile(request):
     context={"profiles":profiles,"posts":posts}
     return render (request,'profile.html', context)
 
+def newImage(request):
+    
 
+    
 def searchuser(request):
     if 'gram' in request.GET and request.GET['gram']:
         name = request.GET.get("gram")
