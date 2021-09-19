@@ -5,6 +5,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 
+
 # Create your views here.
 def homepage(request):
     
@@ -63,8 +64,8 @@ def userprofile(request):
     context={"profiles":profiles,"posts":posts}
     return render (request,'profile.html', context)
 
-def newImage(request):
-    
+
+
 
     
 def searchuser(request):

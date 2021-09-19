@@ -1,1 +1,1 @@
-web: gunicorn instagram.wsgi 
+web: gunicorn instagram.wsgi --timeout 60 --keep-alive 5 --log-level debug
